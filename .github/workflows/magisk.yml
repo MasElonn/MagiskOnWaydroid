@@ -127,11 +127,12 @@ jobs:
     steps:
       - name: Dependencies
         run: |
+          sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install -y python3 python3-pip python3-bs4
           pip3 install beautifulsoup4 lxml
-          sudo apt-get install -y setools lzip qemu-utils wine64 wine32 winetricks patchelf attr p7zip-full
-          wget -qO- "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/archive/$GITHUB_REF.tar.gz" | sudo tar             --wildcards -zxvf- -C ~ --strip-component=2 '*/wine/*' '*/linker/*'
+          sudo apt-get install -y setools lzip qemu-utils wine64 wine32:i386 winetricks patchelf attr p7zip-full
+          wget -qO- "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/archive/$GITHUB_REF.tar.gz" | sudo tar --wildcards -zxvf- -C ~ --strip-component=2 '*/wine/*' '*/linker/*'
           winetricks msxml6
       - name: Download WSA
         shell: python
