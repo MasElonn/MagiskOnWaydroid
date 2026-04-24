@@ -150,9 +150,16 @@ jobs:
           #release_type_map = "WIS"
           #release_type = release_type_map["${{ matrix.release_type }}"] if "${{ matrix.release_type }}" != "" else "Retail"	
           release_type = "WIS"
-          res = requests.post("https://store.rg-adguard.net/api/GetFiles", f"type=CategoryId&url=858014f3-3934-4abe-8078-4aa193e74ca8&ring={release_type}&lang=en-US", headers={	
-              "content-type": "application/x-www-form-urlencoded"	
-          }, verify=False) # source site has expired cert
+          res = requests.post(
+              "https://store.rg-adguard.net/api/GetFiles", 
+              data=f"type=CategoryId&url=858014f3-3934-4abe-8078-4aa193e74ca8&ring={release_type}&lang=en-US", 
+              headers={
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+                  "Referer": "https://store.rg-adguard.net/"
+              }, 
+              verify=False
+          )
           
           html = BeautifulSoup(res.content, "lxml")
 
